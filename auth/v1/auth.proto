@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package auth.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "github.com/malinatrash/kartinki/proto/auth/v1;authv1";
+
+// AuthService provides authentication functionality
+service AuthService {
+  // Authenticate generates a JWT token based on provided secret
+  rpc Authenticate(AuthenticateRequest) returns (AuthenticateResponse) {
+    option (google.api.http) = {
+      post: "/auth"
+      body: "*"
+    };
+  }
+}
+
+// AuthenticateRequest contains the secret for authentication
+message AuthenticateRequest {
+  string secret = 1;
+}
+
+// AuthenticateResponse contains the generated JWT token
+message AuthenticateResponse {
+  string jwt_token = 1;
+}
