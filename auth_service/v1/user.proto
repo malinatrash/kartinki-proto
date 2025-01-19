@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package auth_service.v1;
+
+option go_package = "github.com/malinatrash/kartinki-proto/gen/go/auth_service/v1;proto_auth_service";
+
+import "google/api/annotations.proto";
+
+service AuthService {
+  
+  rpc GetUser(GetUserRequest) returns (GetUserResponse) {
+    option (google.api.http) = {
+      post: "/v1/users/auth"
+      body: "*"
+    };
+  }
+  
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {
+    option (google.api.http) = {
+      delete: "/v1/users/{secret}"
+    };
+  }
+}
+
+message GetUserRequest {
+  string secret = 1; 
+}
+
+message GetUserResponse {
+  string jwt = 1;                        
+  User user = 2;              
+}
+
+message DeleteUserRequest {
+  string secret = 1; 
+}
+
+message DeleteUserResponse {
+  bool success = 1; 
+}
+
+message User {
+  string id = 1;
+  string username = 2;
+  string avatar = 3;
+}
